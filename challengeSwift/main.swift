@@ -33,6 +33,14 @@ print("""
 """)
 }
 
+// Função para limpar a tela do terminal
+func clear() {
+    let p = Process()
+    p.launchPath = "/usr/bin/clear"
+    p.launch()
+    p.waitUntilExit()
+}
+
 // O arquivo filmes.json é criado (caso ele não exista), e
 // a consntante myUrlFile guarda o caminho do arquivo criado
 let myUrlFile = try createFileJson(fileName: "filmes")
@@ -93,34 +101,40 @@ while let input = readLine(){
    
     case 1:
          // opção para inserir um novo filme
-      print("\nDigite o nome do filme:")
-      minhaEstante.addFilme()
-      exibirMenu()
+        clear()
+        print("\nDigite o nome do filme:")
+        minhaEstante.addFilme()
+        exibirMenu()
     case 2:
         // opção para marcar um filme como assistido
+        clear()
         print("\nQuais dos filmes abaixo você gostaria de marcar como assistido?\n")
         minhaEstante.exibirFilmes(assistido: false)
         print("\nDigite o código do filme: ")
         minhaEstante.marcarAssistido()
-        // Ao marcar um filme como assistido, uma nova recomendação é gerada
-        minhaEstante.exibirRecomendacao()
         exibirMenu()
+
     case 3:
         // opção para exibir a lista de filmes que não foram assistidos
+        clear()
         print("\nLista de filmes não assistidos:\n")
         minhaEstante.exibirFilmes(assistido:false)
         exibirMenu()
+       
     case 4:
         // opção para exibir a lista de filmes já foram assistidos
+        clear()
         print("\nLista de filmes assistidos:\n")
         minhaEstante.exibirFilmes(assistido:true)
         exibirMenu()
     case 5:
         // opção para gerar uma nova recomendação de filme
+         clear()
         minhaEstante.exibirRecomendacao()
         exibirMenu()
     case 6:
         // opção para apagar um filme da lista de filmes
+        clear()
          print("\nQuais dos filmes abaixo você gostaria de deletar da lista?\n")
          print("\nFilmes assistidos:\n")
          minhaEstante.exibirFilmes(assistido: true)
@@ -128,8 +142,6 @@ while let input = readLine(){
          minhaEstante.exibirFilmes(assistido: false)
          print("\nDigite o código do filme: ")
          minhaEstante.apagarFilme()
-         // ao ser apagado um filme, uma nova recomendação é gerada
-         minhaEstante.exibirRecomendacao()
          exibirMenu()
     default:
       print("\nOpção inválida.\n")
