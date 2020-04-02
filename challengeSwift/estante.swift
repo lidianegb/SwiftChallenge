@@ -57,23 +57,22 @@ class Estante {
   
     // Gera recomendação aleatória a partir da lista de filmes não assistidos
     // retorna o filme e seu código
-  private func gerarRecomendacao()->(Int, String){
+  private func gerarRecomendacao()->(String){
     let listFilmes = filmes(false)
     if let filme = listFilmes.randomElement(){
       let nomeFilme = filme.nome
-      let cod = filme.cod
-      return (cod, nomeFilme)
+      return nomeFilme
     }
-    return (0, "\nLista vazia.\n")
+    return "\nLista vazia.\n"
   }
   
     // Exibe recomendação
   func exibirRecomendacao(){
     print("""
         \u{001B}[5;31m
-      ****** Recomendação de hoje *******
-            \(gerarRecomendacao())
-      ***********************************\n
+      \n****** Recomendação de hoje *******\n
+              \(gerarRecomendacao())
+      \n***********************************\n
       """)
     }
 
