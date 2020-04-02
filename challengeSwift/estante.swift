@@ -9,11 +9,11 @@ class Estante {
 // Um nova instância de filme é criada e retornada
   private func createFilme() -> Filme? {
     guard let input = readLine() else{
-      print("Um erro ocorreu ao tentar adicionar novo filme.\n")
+      print("\nUm erro ocorreu ao tentar adicionar novo filme.\n")
       return nil
     }
     if input == "" {
-      print("Nome inválido!\n")
+      print("\nNome inválido!\n")
       return nil
     }
     let filme = Filme(nome: input)
@@ -31,7 +31,7 @@ class Estante {
         novoFilme.cod += filme!.cod
       }
       self.listFilme.append(novoFilme)
-      print("Filme adicionado com sucesso.\n")
+      print("\nFilme adicionado com sucesso.\n")
     }
   }
 
@@ -46,7 +46,7 @@ class Estante {
     func exibirFilmes(assistido:Bool) {
         let list = filmes(assistido)
     if list.isEmpty {
-      print("Lista Vazia.\n")
+      print("\nLista Vazia.\n")
     } else {
       for i in list {
         print(" \(i.cod) - \(i.nome)")
@@ -64,7 +64,7 @@ class Estante {
       let cod = filme.cod
       return (cod, nomeFilme)
     }
-    return (0, "Lista vazia.\n")
+    return (0, "\nLista vazia.\n")
   }
   
     // Exibe recomendação
@@ -82,18 +82,18 @@ class Estante {
   func marcarAssistido() {
     if let inputCod = readLine() {
       guard let cod = Int(inputCod) else {
-        print("O código deve ser um valor inteiro.\n")
+        print("\nO código deve ser um valor inteiro.\n")
         return
       }
       let filme = listFilme.first(where:{ $0.cod == cod})
       if let filme = filme{
         filme.assistido()
-        print("Filme \"\(filme.nome)\" adicionado a lista de assistidos.\n")
+        print("\nFilme \"\(filme.nome)\" adicionado a lista de assistidos.\n")
       }else{
-        print("Código inválido.\n")
+        print("\nCódigo inválido.\n")
       }
     }else{
-      print("Um erro ocorreu ao tentar adicionar o filme a lista de assistidos.\n")
+      print("\nUm erro ocorreu ao tentar adicionar o filme a lista de assistidos.\n")
     }
   }
   
@@ -102,16 +102,16 @@ class Estante {
   func apagarFilme() {
     if let inputCod = readLine() {
       guard let cod = Int(inputCod) else {
-        print("O código deve ser um valor inteiro.\n")
+        print("\nO código deve ser um valor inteiro.\n")
         return
       }
       let index = listFilme.firstIndex { filme in
         return filme.cod == cod }
       if let index = index {
         listFilme.remove(at: index)
-        print("Filme removido com sucesso.\n")
-      } else { print("Código inválido.\n") }
-    } else { print("Um erro ocorreu ao tentar remover o filme.\n") }
+        print("\nFilme removido com sucesso.\n")
+      } else { print("\nCódigo inválido.\n") }
+    } else { print("\nUm erro ocorreu ao tentar remover o filme.\n") }
   }
   
   

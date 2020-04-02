@@ -25,8 +25,8 @@ print("""
         0 - Sair
         1 - Adicionar filme
         2 - Marcar como visto
-        3 - Exibir lista de não assistidos
-        4 - Exibir lista de assistidos
+        3 - Exibir lista de filmes não assistidos
+        4 - Exibir lista de filmes assistidos
         5 - Gerar nova recomendação
         6 - Apagar filme 
 ---------------------------------------------
@@ -93,16 +93,18 @@ while let input = readLine(){
    
     case 1:
          // opção para inserir um novo filme
-      print("Digite o nome do filme:")
+      print("\nDigite o nome do filme:")
       minhaEstante.addFilme()
       exibirMenu()
     case 2:
         // opção para marcar um filme como assistido
-      print("Digite o código do filme: ")
-      minhaEstante.marcarAssistido()
-      // Ao marcar um filme como assistido, uma nova recomendação é gerada
-      minhaEstante.exibirRecomendacao()
-      exibirMenu()
+        print("\nQuais dos filmes abaixo você gostaria de marcar como assistido?\n")
+        minhaEstante.exibirFilmes(assistido: false)
+        print("\nDigite o código do filme: ")
+        minhaEstante.marcarAssistido()
+        // Ao marcar um filme como assistido, uma nova recomendação é gerada
+        minhaEstante.exibirRecomendacao()
+        exibirMenu()
     case 3:
         // opção para exibir a lista de filmes que não foram assistidos
         print("\nLista de filmes não assistidos:\n")
@@ -119,13 +121,18 @@ while let input = readLine(){
         exibirMenu()
     case 6:
         // opção para apagar um filme da lista de filmes
-      print("Digite o código do filme: ")
-      minhaEstante.apagarFilme()
-      // ao ser apagado um filme, uma nova recomendação é gerada
-      minhaEstante.exibirRecomendacao()
-      exibirMenu()
+         print("\nQuais dos filmes abaixo você gostaria de deletar da lista?\n")
+         print("\nFilmes assistidos:\n")
+         minhaEstante.exibirFilmes(assistido: true)
+         print("\nFilmes não assistidos:\n")
+         minhaEstante.exibirFilmes(assistido: false)
+         print("\nDigite o código do filme: ")
+         minhaEstante.apagarFilme()
+         // ao ser apagado um filme, uma nova recomendação é gerada
+         minhaEstante.exibirRecomendacao()
+         exibirMenu()
     default:
-      print("Opção inválida.")
+      print("\nOpção inválida.\n")
   }
 }
 
