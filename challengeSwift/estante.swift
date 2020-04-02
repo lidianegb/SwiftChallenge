@@ -1,10 +1,26 @@
 import Foundation
 
-
 class Estante {
 
     var listFilme:[Filme] = []
   
+
+    private func codigoValido(cod: String) -> Bool{
+        var valido = true
+        if !listFilme.isEmpty {
+            if let _ = self.listFilme.filter({$0.cod==cod}).first{
+                valido = false
+            }
+        }
+        return valido
+    }
+    
+    private func gerarCod() -> String{
+        let alfa = ["A", "B", "C","D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+        let nums = ["0","1","2","3","4","5","6","7","8","9"]
+        let codigo : String = alfa.randomElement()! + nums.randomElement()! + alfa.randomElement()!
+        return codigo
+      }
 // Função para receber uma string do terminal, que é o nome do filme a ser adicionado
 // Um nova instância de filme é criada e retornada
   private func createFilme() -> Filme? {
@@ -16,20 +32,17 @@ class Estante {
       print("\nNome inválido!\n")
       return nil
     }
-    let filme = Filme(nome: input)
+    var codigo = gerarCod()
+    while !codigoValido(cod: codigo){
+        codigo = gerarCod()
+    }
+    let filme = Filme(nome: input, codigo:codigo)
     return filme
   }
   
 // Função para adicionar o novo filme criado a lista de filmes
   func addFilme() {
     if let novoFilme = createFilme() {
-        // Se a lista não tiver vazia, o códido do filme vai ser incrementado
-        // com o código do último filme da lista
-        // caso contrário o código será 1
-      if !listFilme.isEmpty{
-        let filme = listFilme.last
-        novoFilme.cod += filme!.cod
-      }
       self.listFilme.append(novoFilme)
       print("\nFilme adicionado com sucesso.\n")
     }
@@ -80,11 +93,7 @@ class Estante {
  // Se o código for inválido uma mensagem de erro é retornada
   func marcarAssistido() {
     if let inputCod = readLine() {
-      guard let cod = Int(inputCod) else {
-        print("\nO código deve ser um valor inteiro.\n")
-        return
-      }
-      let filme = listFilme.first(where:{ $0.cod == cod})
+      let filme = listFilme.first(where:{ $0.cod == inputCod})
       if let filme = filme{
         filme.assistido()
         print("\nFilme \"\(filme.nome)\" adicionado a lista de assistidos.\n")
@@ -100,12 +109,8 @@ class Estante {
   // Função que apaga um filme pelo número do código
   func apagarFilme() {
     if let inputCod = readLine() {
-      guard let cod = Int(inputCod) else {
-        print("\nO código deve ser um valor inteiro.\n")
-        return
-      }
       let index = listFilme.firstIndex { filme in
-        return filme.cod == cod }
+        return filme.cod == inputCod }
       if let index = index {
         listFilme.remove(at: index)
         print("\nFilme removido com sucesso.\n")
@@ -113,6 +118,4 @@ class Estante {
     } else { print("\nUm erro ocorreu ao tentar remover o filme.\n") }
   }
   
-  
- 
 }

@@ -8,17 +8,18 @@ class Filme: Codable{
 
    var nome:String
    var visto:Bool
-    var cod: Int = 0
+    var cod: String
   
-  init(nome: String){
+    init(nome: String, codigo:String){
     self.nome = nome
     self.visto = false
-    self.cod += 1
+    self.cod = codigo
   }
   
 // Função para marcar um filme como assistido
   func assistido(){
     self.visto = true
   }
+   
 
 }
