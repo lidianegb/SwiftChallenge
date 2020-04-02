@@ -35,16 +35,16 @@ class Estante {
     }
   }
 
-// Retorna uma lista de filmes que possuem o atributo visto como true
-  private func filmesAssistidos() -> [Filme] {
-    let filmesAssitidos = self.listFilme.filter({$0.visto==true})
-    return filmesAssitidos
+    // Retorna uma lista de filmes assistidos, se possuirem o atributo visto como true
+    // ou os não assistidos se possuirem o atributo visto como false
+    private func filmes(_ assistido:Bool) -> [Filme] {
+    let filmes = self.listFilme.filter({$0.visto==assistido})
+    return filmes
   }
   
-   // exibe o código e o nome dos filmes que já foram assistidos
-  func exibirFilmesAssistidos() {
-    let list = filmesAssistidos()
-    print("\nLista de filmes assistidos:\n")
+   // exibe o código e o nome dos filmes
+    func exibirFilmes(assistido:Bool) {
+        let list = filmes(assistido)
     if list.isEmpty {
       print("Lista Vazia.\n")
     } else {
@@ -54,29 +54,11 @@ class Estante {
     }
   }
   
-    // retorna uma lista de filmes que possuem o atributo visto como false
-  private func filmesNaoAssistidos() -> [Filme] {
-    let filmesNaoAssistidos = self.listFilme.filter({$0.visto==false})
-    return filmesNaoAssistidos
-  }
-  
-    //  exibe o código e o nome dos filmes não assistidos
-  func exibirFilmesNaoAssistidos(){
-    let list = filmesNaoAssistidos()
-    print("\nLista de filmes não assistidos:\n")
-    if list.isEmpty {
-      print("Lista Vazia.\n")
-    } else {
-      for i in list {
-      print(" \(i.cod) - \(i.nome)")
-      }
-    }
-  }
   
     // Gera recomendação aleatória a partir da lista de filmes não assistidos
     // retorna o filme e seu código
   private func gerarRecomendacao()->(Int, String){
-    let listFilmes = filmesNaoAssistidos()
+    let listFilmes = filmes(false)
     if let filme = listFilmes.randomElement(){
       let nomeFilme = filme.nome
       let cod = filme.cod

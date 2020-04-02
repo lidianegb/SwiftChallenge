@@ -105,16 +105,18 @@ while let input = readLine(){
       exibirMenu()
     case 3:
         // opção para exibir a lista de filmes que não foram assistidos
-      minhaEstante.exibirFilmesNaoAssistidos()
-      exibirMenu()
+        print("\nLista de filmes não assistidos:\n")
+        minhaEstante.exibirFilmes(assistido:false)
+        exibirMenu()
     case 4:
         // opção para exibir a lista de filmes já foram assistidos
-      minhaEstante.exibirFilmesAssistidos()
-      exibirMenu()
+        print("\nLista de filmes assistidos:\n")
+        minhaEstante.exibirFilmes(assistido:true)
+        exibirMenu()
     case 5:
         // opção para gerar uma nova recomendação de filme
-      minhaEstante.exibirRecomendacao()
-      exibirMenu()
+        minhaEstante.exibirRecomendacao()
+        exibirMenu()
     case 6:
         // opção para apagar um filme da lista de filmes
       print("Digite o código do filme: ")
