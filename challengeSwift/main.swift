@@ -76,27 +76,7 @@ while let input = readLine(){
     print("Digite um valor inteiro. ")
     continue
   }
-    // a opção 0 indica o fim do programa
-  if id == 0{
-    do{
-        /*
-         Ao finalizar o programa a função encode é chamada pra transformar a lista
-         de filmes de minha estante em uma string em formato json.
-         O valor dessa string é armazenado em myListFilme.
-         Caso não seja possível essa conversão, um erro é exibido.
-         A String myListFilme é escrita no arquivo, guardando todas as alterações feitas
-         durante a execução do programa.
-        */
-        let myListFilme = try encode(listFilme: minhaEstante.listFilme)
-        try writeFile(urlFile: myUrlFile, json: myListFilme)
-    } catch JsonDetailError.failedToEncoder{
-        print("Erro ao tentar transformar uma String em um Array de Filmes")
-    } catch FileDetailError.failedToWriteFile{
-        print("Erro ao tentar escrever no arquivo: \(myUrlFile)")
-    }
-    break
-  }
-  
+    
   switch id {
    
     case 1:
@@ -143,6 +123,26 @@ while let input = readLine(){
          print("\nDigite o código do filme: ")
          minhaEstante.apagarFilme()
          exibirMenu()
+  case 0:
+    // Finalização do programa
+    do{
+        /*
+         Ao finalizar o programa a função encode é chamada pra transformar a lista
+         de filmes de minha estante em uma string em formato json.
+         O valor dessa string é armazenado em myListFilme.
+         Caso não seja possível essa conversão, um erro é exibido.
+         A String myListFilme é escrita no arquivo, guardando todas as alterações feitas
+         durante a execução do programa.
+        */
+        let myListFilme = try encode(listFilme: minhaEstante.listFilme)
+        try writeFile(urlFile: myUrlFile, json: myListFilme)
+    } catch JsonDetailError.failedToEncoder{
+        print("Erro ao tentar transformar uma String em um Array de Filmes")
+    } catch FileDetailError.failedToWriteFile{
+        print("Erro ao tentar escrever no arquivo: \(myUrlFile)")
+    }
+    exit(0)
+    
     default:
       print("\nOpção inválida.\n")
   }
