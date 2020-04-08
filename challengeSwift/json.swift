@@ -6,7 +6,16 @@ enum JsonDetailError : Error{
     case failedToDecoder
 }
 
-
+extension JsonDetailError : LocalizedError{
+    public var errorDescription: String?{
+        switch self {
+        case .failedToDecoder:
+            return NSLocalizedString("Erro ao tentar Decodar", comment: "Decoder")
+        case .failedToEncoder:
+            return NSLocalizedString("Erro ao tentar encodar", comment: "Encoder")
+        }
+    }
+}
 //Transforma o array de Filmes em uma string em formato json
 /*
  [
@@ -24,29 +33,21 @@ enum JsonDetailError : Error{
 
  */
 func encode(listFilme:[Filme]) throws -> String{
-   do {
-        let jsonData = try JSONEncoder().encode(listFilme)
-        guard let jsonString = String(data: jsonData, encoding: .utf8) else {
-            throw JsonDetailError.failedToEncoder
-        }
-        return jsonString
-   } catch {
+    let jsonData = try JSONEncoder().encode(listFilme)
+    guard let jsonString = String(data: jsonData, encoding: .utf8) else {
         throw JsonDetailError.failedToEncoder
-   }
-    
+    }
+    return jsonString
  }
  
+
 //Transforma uma String em formato Json em um Array de Filmes
 func decode(jsonString: String) throws -> [Filme]{
    
-    guard let jsonData = jsonString.data(using:.utf8) else {
+    guard let jsonData = jsonString.data(using:.utf8) else{
         throw JsonDetailError.failedToDecoder
     }
-    do{
-        let filme = try JSONDecoder().decode([Filme].self,from: jsonData)
-        return filme
-    }catch{
-        throw JsonDetailError.failedToDecoder
-    }
+    let filme = try JSONDecoder().decode([Filme].self,from: jsonData)
+    return filme
 }
 

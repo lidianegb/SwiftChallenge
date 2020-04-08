@@ -55,11 +55,8 @@ let minhaEstante = Estante()
 do {
     let myListFilme = try readFile(urlFile: myUrlFile)
     minhaEstante.listFilme = try decode(jsonString: myListFilme)
-} catch FileDetailError.failedToReadFile{
-    print("Erro ao tentar ler o arquivo: \(myUrlFile)")
-} catch JsonDetailError.failedToDecoder{
-    print("Erro ao tentar transformar uma String em um Array de Filmes")
-    
+} catch {
+    print(error.localizedDescription)
 }
 
 
@@ -124,27 +121,27 @@ while let input = readLine(){
          minhaEstante.apagarFilme()
          exibirMenu()
   case 0:
-    // Finalização do programa
-    do{
-        /*
-         Ao finalizar o programa a função encode é chamada pra transformar a lista
-         de filmes de minha estante em uma string em formato json.
-         O valor dessa string é armazenado em myListFilme.
-         Caso não seja possível essa conversão, um erro é exibido.
-         A String myListFilme é escrita no arquivo, guardando todas as alterações feitas
-         durante a execução do programa.
-        */
-        let myListFilme = try encode(listFilme: minhaEstante.listFilme)
-        try writeFile(urlFile: myUrlFile, json: myListFilme)
-    } catch JsonDetailError.failedToEncoder{
-        print("Erro ao tentar transformar uma String em um Array de Filmes")
-    } catch FileDetailError.failedToWriteFile{
-        print("Erro ao tentar escrever no arquivo: \(myUrlFile)")
-    }
-    exit(0)
+        // Finalização do programa
+        do{
+            /*
+             Ao finalizar o programa a função encode é chamada pra transformar a lista
+             de filmes de minha estante em uma string em formato json.
+             O valor dessa string é armazenado em myListFilme.
+             Caso não seja possível essa conversão, um erro é exibido.
+             A String myListFilme é escrita no arquivo, guardando todas as alterações feitas
+             durante a execução do programa.
+            */
+            let myListFilme = try encode(listFilme: minhaEstante.listFilme)
+            try writeFile(urlFile: myUrlFile, json: myListFilme)
+        } catch{
+            print(error.localizedDescription)
+        }
+        exit(0)
     
     default:
       print("\nOpção inválida.\n")
   }
+    
+  
 }
 

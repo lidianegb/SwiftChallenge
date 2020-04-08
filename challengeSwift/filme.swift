@@ -6,6 +6,7 @@ uma instância da classe Filme pode ser codificada em um dado Json usando o Json
 */
 class Filme: Codable{
 
+
    var nome:String
    var visto:Bool
     var cod: String
