@@ -31,18 +31,21 @@ private func getDocumentsDiretory() -> URL{
 
 // Função que recebe uma string e um caminho de um arquivo e escreve nesse arquivo a string recebida
 func writeFile(urlFile:URL, json:String) throws{
-    guard let _ =  try? json.write(to: urlFile, atomically: true, encoding: String.Encoding.utf8)else{
+    do{
+        try json.write(to: urlFile, atomically: true, encoding: String.Encoding.utf8)
+    }catch{
         throw FileDetailError.failedToWriteFile
     }
-  
 }
 
 // Recebe um caminho de um arquivo, ler o conteúdo do arquivo, salva em uma String e retorna a mesma
 func readFile(urlFile:URL) throws -> String{
-    guard let readString = try? String(contentsOf: urlFile)else{
+    do{
+        let readString = try String(contentsOf: urlFile)
+        return readString
+    }catch{
         throw FileDetailError.failedToReadFile
     }
-    return readString
 }
 
 // Função para criar um arquivo
@@ -55,8 +58,10 @@ func createFileJson(fileName:String) throws -> URL{
     
     // caso o arquivo não exista, a função writeFile vai criar o arquivo e escrever nele "[]"
     if (!exists){
-        guard let _ = try? writeFile(urlFile: urlFile, json: "[]")else{
-            throw FileDetailError.failedToWriteFile
+        do{
+            try writeFile(urlFile: urlFile, json: "[]")
+        }catch{
+            throw FileDetailError.failedToCreateFile
         }
     }
     return urlFile
