@@ -1,5 +1,28 @@
 import Foundation
 
+
+private enum CreateFilmeDetailError:Error{
+    case invalidName
+    case repeatedName
+    case errorCreatingMovie
+  }
+  extension CreateFilmeDetailError:LocalizedError{
+      public var errorDescription: String?{
+            switch self {
+            case .invalidName:
+                return NSLocalizedString("Nome inválido", comment: "Create filme")
+            case .repeatedName:
+                return NSLocalizedString("Já existe um filme adicionado com esse nome", comment: "Create filme")
+            case .errorCreatingMovie:
+                 return NSLocalizedString("Erro ao tentar criar o filme", comment: "Create filme")
+           
+            }
+        
+       
+        
+  }
+}
+
 class Estante {
 
     var listFilme:[Filme] = []
@@ -15,23 +38,38 @@ class Estante {
         return valido
     }
     
+    
     private func gerarCod() -> String{
         let alfa = ["A", "B", "C","D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
         let nums = ["0","1","2","3","4","5","6","7","8","9"]
         let codigo : String = alfa.randomElement()! + nums.randomElement()! + alfa.randomElement()!
         return codigo
       }
+    
+  
+    private func nomeValido(nome:String) throws{
+        if nome == "" {
+            throw CreateFilmeDetailError.invalidName
+           }
+        let filme = listFilme.first(where:{ $0.nome.uppercased() == nome.uppercased()})
+        
+        if let _ = filme{
+            throw CreateFilmeDetailError.repeatedName
+        }
+        
+      
+        
+    }
+    
 // Função para receber uma string do terminal, que é o nome do filme a ser adicionado
 // Um nova instância de filme é criada e retornada
-  private func createFilme() -> Filme? {
+  private func createFilme() throws -> Filme {
     guard let input = readLine() else{
-      print("\nUm erro ocorreu ao tentar adicionar novo filme.\n")
-      return nil
+        throw CreateFilmeDetailError.errorCreatingMovie
     }
-    if input == "" {
-      print("\nNome inválido!\n")
-      return nil
-    }
+   
+    try nomeValido(nome: input)
+   
     var codigo = gerarCod()
     while !codigoValido(cod: codigo){
         codigo = gerarCod()
@@ -42,10 +80,14 @@ class Estante {
   
 // Função para adicionar o novo filme criado a lista de filmes
   func addFilme() {
-    if let novoFilme = createFilme() {
-      self.listFilme.append(novoFilme)
-      print("\nFilme adicionado com sucesso.\n")
+    do{
+        let novoFilme = try createFilme()
+        self.listFilme.append(novoFilme)
+        print("\nFilme adicionado com sucesso.\n")
+    }catch{
+        print(error.localizedDescription)
     }
+    
   }
 
     // Retorna uma lista de filmes assistidos, se possuirem o atributo visto como true
